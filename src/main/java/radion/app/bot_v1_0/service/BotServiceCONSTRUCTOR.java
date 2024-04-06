@@ -6,6 +6,10 @@ import radion.app.bot_v1_0.constant.ConstantCONSTRUCTOR;
 
 import java.util.List;
 
+/**
+ * Этот класс собирает сущность
+ */
+
 @Service
 @AllArgsConstructor
 public class BotServiceCONSTRUCTOR {
@@ -16,13 +20,16 @@ public class BotServiceCONSTRUCTOR {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder
                 .append(constantCONSTRUCTOR.getSTART_CLASS())
-                .append(" NewEntity")
+                    .append(" NewEntity")
                 .append(constantCONSTRUCTOR.getBRACKET_IN())
                 .append("\n");
 
         for(String key: listKeys){
-            stringBuilder.append("privet String " + key + ";\n");
+            stringBuilder.append("  private String " + key + ";\n");
         }
+
+        stringBuilder.append(constantCONSTRUCTOR.getBRACKET_OUT());
+
         return stringBuilder;
     }
 }

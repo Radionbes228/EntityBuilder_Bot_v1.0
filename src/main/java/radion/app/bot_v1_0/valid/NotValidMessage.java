@@ -9,6 +9,10 @@ import org.springframework.stereotype.Component;
 @Data
 @PropertySource("classpath:/templates/invalid.properties")
 public class NotValidMessage {
+    /**
+     * Сообщения при ошибке или неправильно введенных данных
+     */
+
     @Value("${incorrect.message}")
     private String incorrectMessage;
 }

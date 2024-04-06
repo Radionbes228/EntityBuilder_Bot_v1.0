@@ -16,6 +16,10 @@ import radion.app.bot_v1_0.service.TelegramBot;
 @Slf4j
 @AllArgsConstructor
 public class InitBot {
+    /**
+     * Запуск бота
+     */
+
     private final TelegramBot telegramBot;
 
     @EventListener({ContextRefreshedEvent.class})

@@ -5,20 +5,27 @@ import jakarta.annotation.PostConstruct;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.api.methods.groupadministration.SetChatPhoto;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import radion.app.bot_v1_0.entity.Bot;
 import radion.app.bot_v1_0.valid.NotValidMessage;
+
+import java.io.File;
 
 
 @Component
 @AllArgsConstructor
 @Slf4j
 public class TelegramBot extends TelegramLongPollingBot {
+
+    /**
+     * Главный класс сервиса для телеграм бота, здесь происходит основная логика выполнения.
+     */
 
     private final Bot bot;
     private final BotServiceJSON botServiceJSON;
@@ -48,6 +55,11 @@ public class TelegramBot extends TelegramLongPollingBot {
     @SneakyThrows
     @Override
     public void onUpdateReceived(Update update) {
+        SetChatPhoto setChatPhoto = new SetChatPhoto();
+        InputFile inputFile = new InputFile(new File("templates/TelegramPhoto.jpg"));
+        setChatPhoto.setPhoto(inputFile);
+
+
         log.info("Telegram bot has received a message ");
         if (update.hasMessage() && update.getMessage().hasText() && botServiceJSON.isJSON(update.getMessage().getText())){
             StringBuilder stringBuilder = botServiceCONSTRUCTOR.buildEntity(

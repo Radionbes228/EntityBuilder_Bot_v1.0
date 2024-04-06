@@ -8,6 +8,11 @@ import org.springframework.stereotype.Component;
 @Data
 @Scope(scopeName = "singleton")
 public class ConstantCONSTRUCTOR {
+
+    /**
+     * Элементы для конструктора
+     */
+
     private final String START_CLASS = "public class";
     private final String BRACKET_IN = "{";
     private final String BRACKET_OUT = "}";
