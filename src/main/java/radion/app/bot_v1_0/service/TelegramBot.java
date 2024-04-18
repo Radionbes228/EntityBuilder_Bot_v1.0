@@ -7,16 +7,12 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import org.telegram.telegrambots.meta.api.methods.groupadministration.SetChatPhoto;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import radion.app.bot_v1_0.entity.Bot;
+import radion.app.bot_v1_0.entity.DefaultMessage;
 import radion.app.bot_v1_0.valid.NotValidMessage;
-
-import java.io.File;
-
 
 @Component
 @AllArgsConstructor
@@ -31,6 +27,7 @@ public class TelegramBot extends TelegramLongPollingBot {
     private final BotServiceJSON botServiceJSON;
     private final BotServiceCONSTRUCTOR botServiceCONSTRUCTOR;
     private final NotValidMessage notValidMessage;
+    private final DefaultMessage defaultMessage;
 
     @PostConstruct
     private void initTelegramBot(){
@@ -55,24 +52,19 @@ public class TelegramBot extends TelegramLongPollingBot {
     @SneakyThrows
     @Override
     public void onUpdateReceived(Update update) {
-        SetChatPhoto setChatPhoto = new SetChatPhoto();
-        InputFile inputFile = new InputFile(new File("templates/TelegramPhoto.jpg"));
-        setChatPhoto.setPhoto(inputFile);
-
-
         log.info("Telegram bot has received a message ");
-        if (update.hasMessage() && update.getMessage().hasText() && botServiceJSON.isJSON(update.getMessage().getText())){
-            StringBuilder stringBuilder = botServiceCONSTRUCTOR.buildEntity(
-                    botServiceJSON.getAllForeignKey(update.getMessage().getText())
-            );
-            sendMessage(update.getMessage().getChatId(), stringBuilder.toString());
 
-        }else {
-            sendMessage(update.getMessage().getChatId(), notValidMessage.getIncorrectMessage());
+        if (update.hasMessage() && update.getMessage().hasText() && botServiceJSON.isJSON(update.getMessage().getText())){
+            String response = botServiceCONSTRUCTOR.buildEntity(update.getMessage().getText());
+            responseMessage(update.getMessage().getChatId(), response);
+        } else if (update.hasMessage() && update.getMessage().getText().equals("/start")) {
+            responseMessage(update.getMessage().getChatId(), defaultMessage.getGreeting());
+        } else {
+            responseMessage(update.getMessage().getChatId(), notValidMessage.getIncorrectMessage());
         }
     }
 
-    private void sendMessage(Long chatId, String text){
+    private void responseMessage(Long chatId, String text){
         try {
             SendMessage sendMessage = new SendMessage();
             sendMessage.setChatId(String.valueOf(chatId));

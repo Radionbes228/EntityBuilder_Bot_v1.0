@@ -1,11 +1,9 @@
 package radion.app.bot_v1_0.constant;
 
-import lombok.Data;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @Component
-@Data
 @Scope(scopeName = "singleton")
 public class ConstantCONSTRUCTOR {
 
@@ -13,14 +11,16 @@ public class ConstantCONSTRUCTOR {
      * Элементы для конструктора
      */
 
-    private final String START_CLASS = "public class";
-    private final String BRACKET_IN = "{";
-    private final String BRACKET_OUT = "}";
+    public final String START_CLASS = "public class";
+    public final String BRACKET_IN = "{";
+    public final String BRACKET_OUT = "}";
 
-    private final String ANNOTATION_DATA = "@Data";
-    private final String ANNOTATION_ENTITY = "@Entity";
-    private final String ANNOTATION_TABLE = "@Table";
+    public final String ANNOTATION_DATA = "@Data\n";
+    public final String ANNOTATION_ENTITY = "@Entity\n";
+    public final String ANNOTATION_ID = "@Id\n";
+    public final String ANNOTATION_GENERATED_VALUE = "@GeneratedValue(strategy = GenerationType.IDENTITY)\n";
+    public final String ANNOTATION_TABLE = "@Table(name = \"new_table\")\n";
 
-    private final String GETTER = "@Getter";
-    private final String SETTER = "@Setter";
+    public final String GETTER = "@Getter\n";
+    public final String SETTER = "@Setter\n";
 }
