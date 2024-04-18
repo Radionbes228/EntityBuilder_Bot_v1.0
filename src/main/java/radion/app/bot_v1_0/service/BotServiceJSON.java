@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * Клас, который работает с вводимым JSON`ом
@@ -23,7 +24,7 @@ import java.util.List;
 
 public class BotServiceJSON {
 
-    public Boolean isJSON(String textJSON) throws IOException {;
+    public Boolean isJSON(String textJSON) throws IOException {
         JsonFactory factory = new JsonFactory();
         try {
             JsonParser parser = factory.createParser(new StringReader(textJSON));
